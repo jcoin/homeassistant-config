@@ -1,0 +1,22 @@
+- platform: mqtt
+  state_topic: "phone/g4/sms"
+  name: "sms"
+  force_update: true
+- platform: mqtt
+  name: "g4_battery"
+  state_topic: "phone/g4/state"
+  value_template: "{{ value_json.battery }}"
+  unit_of_measurement: '%'
+- platform: mqtt
+  name: "g4_powersource"
+  state_topic: "phone/g4/state"
+  value_template: "{{ value_json.power }}" 
+- platform: mqtt
+  name: "n4_battery"
+  state_topic: "phone/n4/state"
+  value_template: "{{ value_json.battery }}"
+  unit_of_measurement: '%'
+- platform: mqtt
+  name: "n4_powersource"
+  state_topic: "phone/n4/state"
+  value_template: "{{ value_json.power }}" 

@@ -1,0 +1,33 @@
+- platform: command_line
+  switches: 
+    sonarrctl:
+      command_on: !secret sonarrSW_on 
+      command_off: !secret sonarrSW_off 
+      command_state: !secret sonarrSW_state
+      friendly_name: Sonarr Switch
+    radarrctl:
+      command_on: !secret radarrSW_on 
+      command_off: !secret radarrSW_off
+      command_state: !secret radarrSW_state
+      friendly_name: Radarr Switch
+    nasmountctl:
+      command_on: !secret nasSW_on
+      command_off: !secret nasSW_off 
+      command_state: !secret nasSW_state 
+      friendly_name: nas mounted
+    noderedctl:
+      command_on: !secret nodred_on 
+      command_off: !secret nodred_off 
+      command_state: !secret nodred_state 
+      friendly_name: nodered switch
+    mopidyctl:
+      command_on: !secret mopidy_on 
+      command_off: !secret mopidy_off
+      command_state: !secret mopidy_state 
+      friendly_name: mopidy switch
+    zncctl:
+      command_on: !secret zncSW_on
+      command_off: !secret zncSW_off 
+      command_state: !secret zncSW_state 
+      friendly_name: znc switch
+

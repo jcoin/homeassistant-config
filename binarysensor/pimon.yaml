@@ -1,0 +1,5 @@
+- platform: command_line
+  name: kodi_screensaver
+  command: !secret pimon_cmd
+  payload_off: 'false'
+  payload_on: 'true'

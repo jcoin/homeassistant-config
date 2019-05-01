@@ -1,0 +1,25 @@
+  group_visibility:
+    sequence:
+      - service: group.set_visibility
+        data_template:
+          entity_id: '{{ entity_id }}'
+          visible: '{{ is_state(cond, visible_state) }}'
+  icecast_streaming:
+    alias: Play Radio on Chromecast Audio
+    sequence:
+      -  service: media_player.volume_set
+         data_template:
+           entity_id: 'media_player.walter' 
+           volume_level: '{{  states.input_slider.music_volume.state  }}'  
+
+      -  service: media_player.play_media
+         data_template:
+           entity_id: 'media_player.walter' 
+           media_content_id: 'http://192.168.147.108:8000/mopidy' 
+           media_content_type: 'audio/mp4' 
+  publish_mqtt:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: '{{ topic }}'
+          payload_template: '{{ payload }}'

@@ -1,0 +1,11 @@
+- platform: template
+  scan_interval: 60
+  sensors:
+     present_entities:
+       value_template: >-
+        {% for s in states.device_tracker -%} 
+          {% if s.state == 'home'  %} 
+          {{ s.name}}
+           {%- endif %} 
+        {%- endfor %}
+

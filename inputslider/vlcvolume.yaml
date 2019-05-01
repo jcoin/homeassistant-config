@@ -1,0 +1,6 @@
+  vlc_volume:
+    name: Volume_Vlc
+    icon: mdi:volume-high
+    min: 0
+    max: 1000
+    step: 10

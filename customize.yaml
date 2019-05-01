@@ -1,0 +1,101 @@
+group.salon_group:
+  entity_id:
+  - switch.atasson
+  - sensor.sn2_temperature
+  - media_player.walter
+  - media_player.mpd
+  - light.cheminee
+  - media_player.jihairetv
+  - device_tracker.00113207f619
+  - device_tracker.48ee0cf2bbbd
+  - device_tracker.0017884b4b45
+device_tracker.2c3ae80ab602:
+  friendly_name: sensor 2
+device_tracker.agathe:
+  hidden: true
+  homebridge_hidden: true
+light.cheminee:
+  friendly_name: Cheminée
+group.chambre_group:
+  entity_id:
+  - light.bureau
+  - input_select.light_chamber_preset
+  - light.ventilateur
+group.automationview: {}
+group.cuisine_group:
+  entity_id:
+  - media_player.kodi_cuisine
+  - light.plafond
+  - sensor.sn1_temperature
+  - sensor.sn1_humidity
+  - sensor.sn1_ldr
+  - sensor.sn1_pir
+  - light.sn1_led
+sensor.sn1_humidity:
+  google_assistant: true
+  google_assistant_type: climate
+  google_assistant_name: cuisine humidité
+sensor.sn1_temperature:
+  google_assistant: true
+  google_assistant_type: climate
+  google_assistant_name: temperature de la cuisine
+sensor.sn2_temperature:
+  google_assistant: true
+  google_assistant_type: climate
+  google_assistant_name: temperature du salon
+group.systemview:
+  entity_id:
+  - group.pihole_group
+  - group.system_group
+  - group.rpi1_group
+  - group.rpi2_group
+  - group.web_group
+group.music_stream:
+  entity_id:
+  - sensor.mpd_playing
+  - input_select.music_location
+  - input_number.music_volume
+  - script.icecast_streaming
+device_tracker.00113207f619:
+  friendly_name: nas-synology
+device_tracker.0017884b4b45:
+  friendly_name: hue-bridge
+device_tracker.30fd388c6585:
+  friendly_name: Google-Mini
+device_tracker.600194237cc7:
+  friendly_name: Multi-sensor
+device_tracker.600194845697:
+  friendly_name: sonoff
+device_tracker.bbox_miami:
+  hidden: true
+  homebridge_hidden: true
+group.controle_item:
+  entity_id:
+  - switch.mopidyctl
+  - switch.sonarrctl
+  - weblink.sonarr
+  - switch.radarrctl
+  - weblink.radarr
+  - switch.nasmountctl
+  - weblink.kodi_remote
+  - switch.tvswitch
+  - weblink.freeboxos
+  - weblink.netdata
+  - weblink.owntracks
+  - weblink.sabnzbd
+group.vlc_stream:
+  entity_id:
+  - input_number.vlc_volume
+  - input_boolean.switch_vlc
+group.walter_stream:
+  entity_id:
+  - input_number.music_volume
+  - input_boolean.switch_walter
+device_tracker.ac_57_75_89_32_d0:
+  friendly_name: Nokia 8.1 Fred WF
+device_tracker.nokia_8_1:
+  friendly_name: Nokia 8.1 Fred - BT
+device_tracker.b827ebca7056:
+  friendly_name: jihaireTV
+device_tracker.f4f5d8db6b54:
+  friendly_name: GoogleHomeW

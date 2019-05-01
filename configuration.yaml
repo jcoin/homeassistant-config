@@ -1,0 +1,303 @@
+homeassistant:
+  name: Appart
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  elevation: 35
+  temperature_unit: C
+  unit_system: metric
+  time_zone: Europe/Paris
+  customize : !include customize.yaml
+  auth_providers: 
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+         - 127.0.0.1
+         - ::1
+         - !secret local_network
+  whitelist_external_dirs:
+    - !secret config_dir
+    
+map: 
+
+zone Willo:
+  name: Willo
+  latitude: 48.91779
+  longitude: 2.35346
+  icon: mdi:factory
+  radius: 90 
+
+zone parents:
+  name: Parents
+  latitude: !secret latitude_parents
+  longitude: !secret longitude_parents
+  radius: 100
+  icon: mdi:account-multiple
+
+lovelace:
+  mode: yaml
+
+http:
+  ssl_certificate: !secret ssl_certificate_dir
+  ssl_key: !secret ssl_key_dir
+  base_url: !secret base_url
+  ip_ban_enabled: True
+  login_attempts_threshold: 5
+
+person:
+
+# Track the sun
+sun:
+
+system_health:
+
+
+updater:
+  reporting: no
+
+logger:
+
+  default: fatal
+
+discovery:
+
+recorder:
+  purge_interval: 1
+  purge_keep_days: 1
+  exclude: 
+    domains: 
+      - automation
+      - scene
+      - device_tracker
+      - group
+      - input_number
+      - input_select
+      - input_boolean
+      - script
+      - weather
+      - zone
+      - weblink
+      - updater
+      - sensor
+      - light
+      - binary_sensor
+      - media_player
+      - sun 
+  include:   
+    entities: 
+      - binary_sensor.sonoff_t1_touchpad
+      - binary_sensor.multisensor_motion
+      - sensor.multisensor_temperature
+      - sensor.temp_salon
+      - sensor.multisensor_humidity
+      - light.bureau
+      - light.plafond
+
+      
+history: 
+
+
+# Enables the frontend
+frontend:
+  themes: !include_dir_merge_named themes
+
+config:
+
+
+# Example configuration.yaml entry
+mqtt:
+  broker: !secret mqtt_ip  
+  port: 1883
+  client_id: home-assistant-1
+  keepalive: 60
+  username: !secret mqtt_username 
+  password: !secret mqtt_pw  
+  protocol: 3.1
+ 
+device_tracker: !include_dir_merge_list tracker
+
+shell_command:
+  sonarr_on: !secret sonarr_on 
+  sonarr_off: !secret sonarr_off 
+  radarr_on: !secret radarr_on 
+  radarr_off:  !secret radarr_off 
+  reboot_cmd: sudo reboot -n 
+
+media_player:
+  - platform: kodi
+    host: !secret osmc_host  
+    port: 8080
+    name: OSMC
+    username: !secret osmc_username 
+    password: !secret osmc_password 
+    turn_on_action:
+      service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.OSMC
+        method: GUI.ActivateWindow
+        window: home
+    turn_off_action:
+    - service: media_player.media_stop
+      data:
+        entity_id: media_player.kodi_call_method
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.OSMC
+        method: GUI.ActivateWindow
+        window: screensaver
+  - platform: kodi
+    host: !secret kodicuisine_host 
+    port: 8080
+    name: Kodi_Cuisine
+    username: !secret kodicuisine_username 
+    password: !secret kodicuisine_pw
+  - platform: mpd
+    host:  !secret mpd_host 
+  - platform: vlc
+    arguments: '--aout=alsa --alsa-audio-device="XB10"'
+  - platform: samsungtv
+    host: !secret samsungtv_host 
+    port: 8001
+    name: Television
+    mac: !secret samsungtv_mac
+
+hue:
+  bridges:
+    - host: !secret hue_host
+      allow_unreachable: true
+ 
+
+switch: !include_dir_merge_list switch
+
+automation: !include automations.yaml
+
+sensor: !include_dir_merge_list sensor
+
+binary_sensor: !include_dir_merge_list binarysensor 
+
+script: !include scripts.yaml
+
+input_number: !include_dir_merge_named inputslider
+
+input_boolean:
+  fredhome:
+    name: Frederic Home
+    initial: on
+    icon: mdi:account-circle
+  switch_vlc:
+    name : Lance FIP au Salon
+    initial: off
+    icon: mdi:radio 
+  switch_walter:
+    name : Lance FIP sur Walter
+    initial: off
+    icon: mdi:radio
+
+
+notify:
+  - platform: kodi
+    name: tv_notif
+    host: !secret osmc_host
+    port: 8080
+    username: !secret osmc_username
+    password: !secret osmc_password
+  - platform: twitter
+    name: twitter_notif
+    consumer_key:  !secret twitter_consumer_key 
+    consumer_secret: !secret twitter_consumer_secret
+    access_token: !secret twitter_AT 
+    access_token_secret: !secret twitter_ATS 
+    username: !secret  twitter_username 
+  - name: telegram_notif_bot
+    platform: telegram
+    chat_id : !secret telegram_id 
+  - platform: free_mobile
+    name: sms_send
+    username: !secret fm_username 
+    access_token: !secret fm_at
+  - platform: html5
+    name: html5_ha
+    vapid_pub_key: !secret html_pub 
+    vapid_prv_key: !secret html_priv
+    vapid_email: !secret html_email 
+
+tts:
+  - platform: google_translate
+    language: 'fr'
+    cache: false
+
+telegram_bot:
+  - platform: polling
+    parse_mode: html
+    api_key: !secret telegram_key 
+    allowed_chat_ids: 
+       - !secret telegram_id 
+
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_AT
+
+google_assistant:
+  project_id: !secret ga_PID
+  api_key: !secret ga_KEY
+  exposed_domains:
+    - switch
+    - light
+    - media_player
+
+
+meteo_france:
+  - city: !secret city
+    monitored_conditions :
+      - rain_chance
+      - freeze_chance
+      - thunder_chance
+      - snow_chance
+      - weather
+      - next_rain
+      - wind_speed
+      - temperature
+      - uv
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_API 
+    
+freebox: 
+  host: !secret freebox_host 
+  port: !secret freebox_port 
+ 
+custom_updater:
+  track: 
+    - cards
+    - components
+    - python_scripts
+ 
+dialogflow:
+intent_script:
+  GetTemperature:
+   speech:
+      text: La température dans  le salon est de {{ states('sensor.temp_salon') }} degrés
+  ListLights:
+   speech:
+      text: >
+             Actuellement les lumières {% for state in states  -%}
+                 {% if (state.domain=="light") and (state.state=="on")  and ('is_hue_group' not in state.attributes) -%}
+                 {{state.name}},  
+                  {%- endif %}
+                {%- endfor -%} sont allumées.
+  OnOffLight:
+   speech:
+      text: J'{{ Action_switch }} la lumière {{ Light }} 
+   action:
+     - service: notify.telegram_notif_bot
+       data_template:
+          message: DialogFLow {{ Action_switch }} {{ Light }} 
+     - service_template: >
+        {%- if Action_switch == "allume" -%}
+            light.turn_on
+          {%- else -%}
+            light.turn_off
+          {%- endif -%}
+       data_template:
+         entity_id: "light.{{ lower(Light)  }}"
+

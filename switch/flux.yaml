@@ -1,0 +1,5 @@
+- platform: flux
+  lights: 
+       - light.bureau
+       - light.plafond
+       - light.color_temperature_light_1 
