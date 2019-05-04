@@ -173,6 +173,7 @@ views:
             - switch.radarrctl
             - switch.nasmountctl
             - switch.sonarrctl
+            - switch.flux
             - device_tracker.00113207f619
             - device_tracker.0017884b4b45
             - binary_sensor.multisensor_motion
