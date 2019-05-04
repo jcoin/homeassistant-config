@@ -50,9 +50,10 @@ Most of the automation is handled through NodeRed
 
 ### Preview
 
+[Home Assistant Gif](https://github.com/jcoin/homeassistant-config/HA.gif "Home Assistant Preview")
+
 ### To-Do
 
 * Integrate with Travis-CI
 * Automation cleanup
-* Preview for github
 
