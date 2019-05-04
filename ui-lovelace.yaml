@@ -79,6 +79,7 @@ views:
                          - input_boolean.switch_walter
                          - input_number.music_volume
                          - media_player.mpd
+                         - input_boolean.switch_vlc
                          
                       card: 
                         type: 'custom:hui-entities-card'
@@ -124,20 +125,26 @@ views:
                           - type: section
                             label : Radio
                           - type: entity
-                            entity: input_boolean.switch_walter
-                          - type: entity
-                            entity: input_number.music_volume                       
-                          - type: entity
                             entity: media_player.mpd
                             name: "${vars[2] === 'off' || vars[2] === 'unavailable'  ? 'Music Daemon' : vars[0]+' '+ vars[1]}"
-                                
+                          - type: entity
+                            entity: input_boolean.switch_walter
+                          - type: entity
+                            name: Volume Walter
+                            entity: input_number.music_volume                       
+                          - type: entity
+                            entity: input_boolean.switch_vlc
+                          - type: entity
+                            name: Volume HP
+                            entity: input_number.vlc_volume
+                            
           - type: custom:layout-card 
             layout: horizontal
-            max columns: 3
-            max_width: [25%, 50%, 25%]
+            max columns: 1
+            max_width: [15%, 50%,15% ]
             #horizontal-stack
-            cards: 
-               - type: custom:gap-card         
+            cards:        
+               - type: custom:gap-card      
                - type: vertical-stack
                  cards:
                     - type: conditional
@@ -156,6 +163,15 @@ views:
                       card:
                         type: media-control
                         entity: media_player.walter
+                    - type: conditional
+                      conditions:            
+                        - entity: media_player.vlc
+                          state_not: "off"
+                        - entity: media_player.vlc
+                          state_not: "idle"
+                      card:
+                        type: media-control
+                        entity: media_player.vlc
                - type: custom:gap-card                                                      
                  
   - title: system
