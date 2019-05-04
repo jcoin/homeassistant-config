@@ -50,7 +50,7 @@ Most of the automation is handled through NodeRed
 
 ### Preview
 
-[Home Assistant Gif](https://github.com/jcoin/homeassistant-config/HA.gif "Home Assistant Preview")
+[Home Assistant Gif](https://github.com/jcoin/homeassistant-config/blob/master/HA.gif)
 
 ### To-Do
 
