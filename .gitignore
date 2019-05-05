@@ -8,6 +8,7 @@
 !*.md
 !LICENCE
 !HA.gif
+!*.yml
 
 # Ignore folders.
 .storage
@@ -25,6 +26,7 @@ shells
 !themes
 !tracker
 !www
+!.circleci
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
