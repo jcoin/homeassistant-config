@@ -55,6 +55,8 @@ views:
                            name: Hum.
                          - entity: sensor.multisensor_brightness
                            name: Lum.
+                         - entity: sensor.linky
+                           name: Conso Elec.
                       show_state: true
                       show_icon: true
                     - type: custom:gap-card
@@ -80,6 +82,7 @@ views:
                          - input_number.music_volume
                          - media_player.mpd
                          - input_boolean.switch_vlc
+                         - input_boolean.switch_lightentree
                          
                       card: 
                         type: 'custom:hui-entities-card'
@@ -104,7 +107,10 @@ views:
                                entity_id: media_player.television
                           - type: section
                             label : Lumieres
-      
+                          - type: entity
+                            icon: mdi:lightbulb
+                            entity : input_boolean.switch_lightentree
+                            name: Entree
                           - type: entity
                             icon: mdi:lightbulb
                             entity : switch.sonoff_t1_relay
@@ -213,6 +219,12 @@ views:
             - type: weblink    
               name: Sonarr
               url: !secret sonarr_url 
+            - type: weblink    
+              name: BookStack
+              url: !secret bookstack_url 
+            - type: weblink    
+              name: Firefly
+              url: !secret firefly_url
             - type: weblink
               name: Kodi Remote
               url: !secret osmc_url 

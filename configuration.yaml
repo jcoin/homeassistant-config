@@ -55,14 +55,14 @@ updater:
   reporting: no
 
 logger:
-
-  default: fatal
+  default: info
 
 discovery:
 
 recorder:
+  db_url: !secret mariadb_url 
   purge_interval: 1
-  purge_keep_days: 1
+  purge_keep_days: 9
   exclude: 
     domains: 
       - automation
@@ -191,7 +191,10 @@ input_boolean:
     name : Lance FIP sur Walter
     initial: off
     icon: mdi:radio
-
+  switch_lightentree:
+    name : Lumiere entrée
+    initial: off
+    icon: mdi:lightbulb
 
 notify:
   - platform: kodi
