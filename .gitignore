@@ -9,6 +9,7 @@
 !LICENCE
 !HA.gif
 !*.yml
+!custom_updater.py
 
 # Ignore folders.
 .storage
@@ -27,6 +28,7 @@ shells
 !tracker
 !www
 !.circleci
+!custom_components
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
