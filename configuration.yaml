@@ -55,7 +55,7 @@ updater:
   reporting: no
 
 logger:
-  default: info
+  default: fatal
 
 discovery:
 
@@ -274,7 +274,9 @@ custom_updater:
     - cards
     - components
     - python_scripts
- 
+  component_urls:
+  - https://raw.githubusercontent.com/robmarkcole/Hue-sensors-HASS/master/custom_updater.json
+  
 dialogflow:
 intent_script:
   GetTemperature:

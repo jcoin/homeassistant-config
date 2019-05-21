@@ -1,4 +1,4 @@
-# Home Assistant Configuration
+# Home Assistant Configuration [![CircleCI](https://circleci.com/gh/jcoin/homeassistant-config/tree/master.svg?style=svg)](https://circleci.com/gh/jcoin/homeassistant-config/tree/master)
 
 Configuration files for my [HomeAssistant](https://home-assistant.io) instance
 
@@ -54,6 +54,5 @@ Most of the automation is handled through NodeRed
 
 ### To-Do
 
-* Integrate with Travis-CI
 * Automation cleanup
 
