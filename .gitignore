@@ -9,7 +9,7 @@
 !LICENCE
 !HA.gif
 !*.yml
-!custom_updater.py
+!*.py
 
 # Ignore folders.
 .storage
