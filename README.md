@@ -54,5 +54,4 @@ Most of the automation is handled through NodeRed
 
 ### To-Do
 
-* Automation cleanup
 
