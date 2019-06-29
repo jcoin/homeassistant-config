@@ -17,9 +17,8 @@ resources:
     type: js
   - url: /customcards/github/custom-cards/config-template-card.js?track=true
     type: js  
-  - url: /customcards/github/thomasloven/useful-markdown-card.js?track=true
-    type: js  
-
+  - url: /local/entity-attributes-card.js?v=2
+    type: js
 views:
   - title: default_view
     icon: mdi:home
@@ -35,8 +34,8 @@ views:
                # Colonne Info+ Lumieres
                - type: vertical-stack
                  cards: 
-                    - type: weather-forecast
-                      entity: !secret meteo_entity
+                    #- type: weather-forecast
+                    #  entity: !secret meteo_entity
                     - type: weather-forecast
                       entity: weather.dark_sky
                     - type: glance
@@ -55,20 +54,16 @@ views:
                            name: Hum.
                          - entity: sensor.multisensor_brightness
                            name: Lum.
-                         - entity: sensor.linky
+                         - entity: sensor.linky_yesterday
                            name: Conso Elec.
                       show_state: true
                       show_icon: true
                     - type: custom:gap-card
                       height: 16f0
-               #Colonne Media
+               #Colonne Ecrans + lumieres switchs
                - type: vertical-stack
                  cards:
                     - type: custom:config-template-card
-                      variables:
-                         - states['media_player.mpd'].attributes['media_artist']
-                         - states['media_player.mpd'].attributes['media_title']
-                         - states['media_player.mpd'].state   
                       entities:   
                          - switch.atasson
                          - media_player.television
@@ -78,12 +73,8 @@ views:
                          - light.bureau
                          - light.cheminee
                          - light.plafond
-                         - input_boolean.switch_walter
-                         - input_number.music_volume
-                         - media_player.mpd
-                         - input_boolean.switch_vlc
-                         - input_boolean.switch_lightentree
-                         
+                         - light.entree
+                         - input_boolean.switch_lightentree                   
                       card: 
                         type: 'custom:hui-entities-card'
                         title: Interrupteurs
@@ -109,7 +100,7 @@ views:
                             label : Lumieres
                           - type: entity
                             icon: mdi:lightbulb
-                            entity : input_boolean.switch_lightentree
+                            entity : light.entree
                             name: Entree
                           - type: entity
                             icon: mdi:lightbulb
@@ -128,8 +119,33 @@ views:
                             entity : light.plafond
                             name: Cuisine
                             toggle: true
+          #Colonne Radio
+          - type: custom:layout-card 
+            layout: horizontal
+            max columns: 2
+            #horizontal-stack
+            cards: 
+               - type: custom:config-template-card  
+                 variables: 
+                         - states['media_player.mpd'].attributes['media_artist']
+                         - states['media_player.mpd'].attributes['media_title']
+                         - states['media_player.mpd'].state 
+                 entities: 
+                         - input_boolean.switch_walter
+                         - input_number.music_volume
+                         - input_number.vlc_volume 
+                         - media_player.mpd
+                         - input_boolean.switch_vlc
+                         - input_select.radio_select
+                 card:
+                     type: 'custom:hui-entities-card'
+                     title: Radio Control
+                     show_header_toggle: false
+                     entities: 
                           - type: section
                             label : Radio
+                          - type: entity
+                            entity: input_select.radio_select
                           - type: entity
                             entity: media_player.mpd
                             name: "${vars[2] === 'off' || vars[2] === 'unavailable'  ? 'Music Daemon' : vars[0]+' '+ vars[1]}"
@@ -142,8 +158,354 @@ views:
                             entity: input_boolean.switch_vlc
                           - type: entity
                             name: Volume HP
-                            entity: input_number.vlc_volume
-                            
+                            entity: input_number.vlc_volume                     
+
+               - type: vertical-stack
+                 cards: 
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip'].attributes['current_track']['title']
+                                         - states['sensor.fip'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-electro"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_electro'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_electro'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_electro'].attributes['current_track']['title']
+                                         - states['sensor.fip_electro'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_electro
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_electro
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_electro'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_electro
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_electro'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_electro
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-groove"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_groove'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_groove'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_groove'].attributes['current_track']['title']
+                                         - states['sensor.fip_groove'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_groove
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_groove
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_groove'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_groove
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_groove'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_groove
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-jazz"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_jazz'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_jazz'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_jazz'].attributes['current_track']['title']
+                                         - states['sensor.fip_jazz'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_jazz
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_jazz
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_jazz'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_jazz
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_jazz'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_jazz
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-metal"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_metal'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_metal'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_metal'].attributes['current_track']['title']
+                                         - states['sensor.fip_metal'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_metal
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_metal
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_metal'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_metal
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_metal'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_metal
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-monde"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_monde'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_monde'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_monde'].attributes['current_track']['title']
+                                         - states['sensor.fip_monde'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_monde
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_monde
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_monde'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_monde
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_monde'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_monde
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-nouveau"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_nouveau'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_nouveau'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_nouveau'].attributes['current_track']['title']
+                                         - states['sensor.fip_nouveau'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_nouveau
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_nouveau
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_nouveau'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_nouveau
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_nouveau'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_nouveau
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-reggae"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_reggae'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_reggae'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_reggae'].attributes['current_track']['title']
+                                         - states['sensor.fip_reggae'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_reggae
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_reggae
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_reggae'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_reggae
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_reggae'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_reggae
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+                    - type: conditional
+                      conditions:
+                         - entity: input_select.radio_select
+                           state: "fip-rock"
+                      card: 
+                           type: vertical-stack
+                           cards:                
+                               - type: custom:config-template-card
+                                 variables:
+                                         - states['sensor.fip_rock'].attributes['current_track']['picture'] 
+                                         - states['sensor.fip_rock'].attributes['current_track']['artist'] 
+                                         - states['sensor.fip_rock'].attributes['current_track']['title']
+                                         - states['sensor.fip_rock'].attributes['future_tracks'][0]['title'] 
+                                 entities: 
+                                         - sensor.fip_rock
+                                 card:                          
+                                         type: 'custom:hui-picture-entity-card'
+                                         name: "${vars[1] + ' - '+ vars[2]}"
+                                         image: "${vars[0]}" 
+                                         entity: sensor.fip_rock
+                               - type: horizontal-stack
+                                 cards: 
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_rock'].attributes['previous_tracks']
+                                      entities: 
+                                              - sensor.fip_rock
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## Titre Précédent \n '+ vars[0][vars[0].length-1]['title'] + "\nDe " +vars[0][vars[0].length-1]['artist']+'\n'}  
+                                    - type: custom:config-template-card
+                                      variables:
+                                              - states['sensor.fip_rock'].attributes['future_tracks'][0]
+                                      entities: 
+                                              - sensor.fip_rock
+                                      card:                          
+                                              type: 'custom:hui-markdown-card'
+                                              content: ${'## A suivre \n '+ vars[0]['title'] + "\nDe " +vars[0]['artist']}
+  
+          #Players
           - type: custom:layout-card 
             layout: horizontal
             max columns: 1

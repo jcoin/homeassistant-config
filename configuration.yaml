@@ -55,8 +55,12 @@ updater:
   reporting: no
 
 logger:
-  default: fatal
-
+  default: info
+  logs: 
+    homeassistant.components.command_line.switch: error
+    homeassistant.components.flux.switch: error
+    homeassistant.components.discovery: error
+    
 discovery:
 
 recorder:
@@ -268,6 +272,11 @@ weather:
 freebox: 
   host: !secret freebox_host 
   port: !secret freebox_port 
+
+rest_command:
+  fireflyiii_transaction:
+    url: !secret transaction_url 
+    method: GET
  
 custom_updater:
   track: 
@@ -276,7 +285,22 @@ custom_updater:
     - python_scripts
   component_urls:
   - https://raw.githubusercontent.com/robmarkcole/Hue-sensors-HASS/master/custom_updater.json
-  
+
+input_select:
+  radio_select:
+    name: radios
+    options: 
+      - mopidy
+      - fip
+      - fip-electro
+      - fip-groove
+      - fip-jazz
+      - fip-monde
+      - fip-nouveau
+      - fip-reggae
+      - fip-rock
+      - fip-metal
+      
 dialogflow:
 intent_script:
   GetTemperature:

@@ -1,3 +1,4 @@
 - platform: linky 
   username: !secret linky_user
   password: !secret linky_pass
+  timeout: 100
