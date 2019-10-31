@@ -13,6 +13,7 @@ jobs:
            mv secrets_redacted.yaml secrets.yaml 
            python3.7 -m venv . 
            source bin/activate
+           sudo apt-get install libbluetooth-dev
            pip3 install --upgrade pip
            pip3 install --pre phue 
            pip3 install --pre aiohue
