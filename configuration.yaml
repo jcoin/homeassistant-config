@@ -60,6 +60,7 @@ logger:
     homeassistant.components.command_line.switch: error
     homeassistant.components.flux.switch: error
     homeassistant.components.discovery: error
+    homeassistant.components.media_player.vlc: debug
     
 discovery:
 
@@ -134,7 +135,7 @@ media_player:
     username: !secret osmc_username 
     password: !secret osmc_password 
     turn_on_action:
-      service: media_player.kodi_call_method
+      service: kodi.call_method
       data:
         entity_id: media_player.OSMC
         method: GUI.ActivateWindow
@@ -142,8 +143,8 @@ media_player:
     turn_off_action:
     - service: media_player.media_stop
       data:
-        entity_id: media_player.kodi_call_method
-    - service: media_player.kodi_call_method
+        entity_id: kodi.call_method
+    - service: kodi.call_method
       data:
         entity_id: media_player.OSMC
         method: GUI.ActivateWindow
@@ -157,7 +158,6 @@ media_player:
   - platform: mpd
     host:  !secret mpd_host 
   - platform: vlc
-    arguments: '--aout=alsa'
   - platform: samsungtv
     host: !secret samsungtv_host 
     port: 8001
@@ -251,6 +251,11 @@ google_assistant:
     - light
     - media_player
 
+withings:
+  client_id: !secret withings_cid
+  client_secret: !secret withings_sec
+  profiles: 
+    - Frederic
 
 meteo_france:
   - city: !secret city
@@ -264,11 +269,17 @@ meteo_france:
       - wind_speed
       - temperature
       - uv
+    
+linky:
+   - username: !secret linky_user
+     password: !secret linky_pass
 
 weather:
   - platform: darksky
     api_key: !secret darksky_API 
-    
+   
+pi_hole:
+ 
 freebox: 
   host: !secret freebox_host 
   port: !secret freebox_port 
