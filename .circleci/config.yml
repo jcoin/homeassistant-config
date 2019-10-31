@@ -17,7 +17,6 @@ jobs:
            pip3 install --pre phue 
            pip3 install --pre aiohue
            pip3 install --pre withings-api
-           pip3 install --pre pybluez
            pip3 install --pre --upgrade homeassistant 
            hass -c . --script check_config --info all
 
