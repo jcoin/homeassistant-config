@@ -11,7 +11,7 @@ jobs:
          command: | 
            touch fake.pem 
            mv secrets_redacted.yaml secrets.yaml 
-           python3.5 -m venv . 
+           python3.7 -m venv . 
            source bin/activate
            pip3 install --pre phue 
            pip3 install --pre aiohue
