@@ -2,7 +2,7 @@ version: 2
 jobs: 
   build: 
     docker: 
-     - image: circleci/python:3.5.3 
+     - image: circleci/python:3.7.3-stretch
     working_directory: ~/repo
     steps: 
      - checkout 
@@ -11,10 +11,13 @@ jobs:
          command: | 
            touch fake.pem 
            mv secrets_redacted.yaml secrets.yaml 
-           python3.5 -m venv . 
+           python3.7 -m venv . 
            source bin/activate
+           sudo apt-get install libbluetooth-dev
+           pip3 install --upgrade pip
            pip3 install --pre phue 
            pip3 install --pre aiohue
+           pip3 install --pre withings-api
            pip3 install --pre --upgrade homeassistant 
            hass -c . --script check_config --info all
 

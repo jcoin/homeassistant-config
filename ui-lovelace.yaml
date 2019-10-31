@@ -17,9 +17,8 @@ resources:
     type: js
   - url: /customcards/github/custom-cards/config-template-card.js?track=true
     type: js  
-  - url: /customcards/github/thomasloven/useful-markdown-card.js?track=true
-    type: js  
-
+  - url: /local/entity-attributes-card.js?v=2
+    type: js
 views:
   - title: default_view
     icon: mdi:home
@@ -35,8 +34,8 @@ views:
                # Colonne Info+ Lumieres
                - type: vertical-stack
                  cards: 
-                    - type: weather-forecast
-                      entity: !secret meteo_entity
+                    #- type: weather-forecast
+                    #  entity: !secret meteo_entity
                     - type: weather-forecast
                       entity: weather.dark_sky
                     - type: glance
@@ -55,20 +54,16 @@ views:
                            name: Hum.
                          - entity: sensor.multisensor_brightness
                            name: Lum.
-                         - entity: sensor.linky
+                         - entity: sensor.linky_yesterday
                            name: Conso Elec.
                       show_state: true
                       show_icon: true
                     - type: custom:gap-card
                       height: 16f0
-               #Colonne Media
+               #Colonne Ecrans + lumieres switchs
                - type: vertical-stack
                  cards:
                     - type: custom:config-template-card
-                      variables:
-                         - states['media_player.mpd'].attributes['media_artist']
-                         - states['media_player.mpd'].attributes['media_title']
-                         - states['media_player.mpd'].state   
                       entities:   
                          - switch.atasson
                          - media_player.television
@@ -77,13 +72,10 @@ views:
                          - switch.sonoff_t1_relay
                          - light.bureau
                          - light.cheminee
+                         - light.hue_filament_bulb_1
                          - light.plafond
-                         - input_boolean.switch_walter
-                         - input_number.music_volume
-                         - media_player.mpd
-                         - input_boolean.switch_vlc
-                         - input_boolean.switch_lightentree
-                         
+                         - light.entree
+                         - input_boolean.switch_lightentree                   
                       card: 
                         type: 'custom:hui-entities-card'
                         title: Interrupteurs
@@ -109,8 +101,13 @@ views:
                             label : Lumieres
                           - type: entity
                             icon: mdi:lightbulb
-                            entity : input_boolean.switch_lightentree
+                            entity : light.entree
                             name: Entree
+                          - type: custom:slider-entity-row
+                            icon: mdi:lightbulb
+                            entity : light.hue_filament_bulb_1
+                            name: Cheminee
+                            toggle: true
                           - type: entity
                             icon: mdi:lightbulb
                             entity : switch.sonoff_t1_relay
@@ -128,8 +125,33 @@ views:
                             entity : light.plafond
                             name: Cuisine
                             toggle: true
+          #Colonne Radio
+          - type: custom:layout-card 
+            layout: horizontal
+            max columns: 2
+            #horizontal-stack
+            cards: 
+               - type: custom:config-template-card  
+                 variables: 
+                         - states['media_player.mpd'].attributes['media_artist']
+                         - states['media_player.mpd'].attributes['media_title']
+                         - states['media_player.mpd'].state 
+                 entities: 
+                         - input_boolean.switch_walter
+                         - input_number.music_volume
+                         - input_number.vlc_volume 
+                         - media_player.mpd
+                         - input_boolean.switch_vlc
+                         - input_select.radio_select
+                 card:
+                     type: 'custom:hui-entities-card'
+                     title: Radio Control
+                     show_header_toggle: false
+                     entities: 
                           - type: section
                             label : Radio
+                          - type: entity
+                            entity: input_select.radio_select
                           - type: entity
                             entity: media_player.mpd
                             name: "${vars[2] === 'off' || vars[2] === 'unavailable'  ? 'Music Daemon' : vars[0]+' '+ vars[1]}"
@@ -142,8 +164,9 @@ views:
                             entity: input_boolean.switch_vlc
                           - type: entity
                             name: Volume HP
-                            entity: input_number.vlc_volume
-                            
+                            entity: input_number.vlc_volume                     
+
+          #Players
           - type: custom:layout-card 
             layout: horizontal
             max columns: 1
@@ -173,8 +196,8 @@ views:
                       conditions:            
                         - entity: media_player.vlc
                           state_not: "off"
-                        - entity: media_player.vlc
-                          state_not: "idle"
+                          #- entity: media_player.vlc
+                          #state_not: "idle"
                       card:
                         type: media-control
                         entity: media_player.vlc
@@ -208,6 +231,14 @@ views:
           entities: 
             - light.onoff_plug_1 
             - light.onoff_plug_2
+            
+        - type: entities
+          title: Infos Systeme
+          show_header_toggle: false
+          entities: 
+            - sensor.memory_free 
+            - sensor.processor_use
+            - sensor.last_boot
             
         - type: entities
           title: Liens
