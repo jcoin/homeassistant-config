@@ -13,9 +13,11 @@ jobs:
            mv secrets_redacted.yaml secrets.yaml 
            python3.7 -m venv . 
            source bin/activate
+           pip3 install --upgrade pip
            pip3 install --pre phue 
            pip3 install --pre aiohue
            pip3 install --pre withings-api
+           pip3 install --pre pybluez
            pip3 install --pre --upgrade homeassistant 
            hass -c . --script check_config --info all
 
