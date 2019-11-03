@@ -5,19 +5,19 @@
 title: Home
 
 resources:
-  - url: /customcards/github/custom-cards/tracker-card.js?track=true
+  - url: /community_plugin/lovelace-card-tools/card-tools.js
+    type: js
+  - url: /community_plugin/lovelace-layout-card/layout-card.js
+    type: js
+  - url: /community_plugin/lovelace-gap-card/gap-card.js
+    type: module
+  - url: /community_plugin/lovelace-slider-entity-row/slider-entity-row.js
+    type: module
+  - url: /community_plugin/config-template-card/config-template-card.js
     type: module  
-  - url: /customcards/github/thomasloven/card-tools.js?track=true
+  - url: /community_plugin/entity-attributes-card/entity-attributes-card.js
     type: js
-  - url: /customcards/github/thomasloven/layout-card.js?track=true
-    type: js
-  - url: /customcards/github/thomasloven/gap-card.js?track=true?v=1
-    type: js
-  - url: /customcards/github/thomasloven/slider-entity-row.js?track=true
-    type: js
-  - url: /customcards/github/custom-cards/config-template-card.js?track=true
-    type: js  
-  - url: /local/entity-attributes-card.js?v=2
+  - url: /community_plugin/upcoming-media-card/upcoming-media-card.js
     type: js
 views:
   - title: default_view
@@ -209,7 +209,6 @@ views:
           entities: 
             - sensor.multisensor_temperature
             - sensor.temp_salon
-        - type: custom:tracker-card
         - type: entities
           title: Controle
           show_header_toggle: true
@@ -239,6 +238,7 @@ views:
             - sensor.memory_free 
             - sensor.processor_use
             - sensor.last_boot
+            - sensor.ssl_certificate_expiry
             
         - type: entities
           title: Liens
@@ -275,7 +275,6 @@ views:
               name:  znc 
               url: !secret znc_url
           
-
   - title: IOT Sensors
     cards:
         - type: entities
@@ -309,5 +308,11 @@ views:
             - binary_sensor.sonoff_t1_touchpad
             - sensor.uptime_sensor_4
         
-
+  - title: Media Programmation
+    cards:
+        - type: custom:upcoming-media-card
+          entity: sensor.trakt_upcoming_calendar
+          clock: 24
+          date: ddmm
+          max: 10
         

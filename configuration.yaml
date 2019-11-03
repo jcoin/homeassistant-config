@@ -96,6 +96,9 @@ recorder:
       - sensor.multisensor_humidity
       - light.bureau
       - light.plafond
+      - light.entree
+      - light.cheminee
+      - sensor.memory_free
 
       
 history: 
@@ -279,6 +282,8 @@ weather:
     api_key: !secret darksky_API 
    
 pi_hole:
+  host: !secret pihole_host
+  api_key: !secret pihole_api
  
 freebox: 
   host: !secret freebox_host 
@@ -289,13 +294,6 @@ rest_command:
     url: !secret transaction_url 
     method: GET
  
-custom_updater:
-  track: 
-    - cards
-    - components
-    - python_scripts
-  component_urls:
-  - https://raw.githubusercontent.com/robmarkcole/Hue-sensors-HASS/master/custom_updater.json
 
 input_select:
   radio_select:
