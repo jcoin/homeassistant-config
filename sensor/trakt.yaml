@@ -1,0 +1,5 @@
+- platform: trakt 
+  id: !secret trakt_id
+  secret: !secret trakt_secret
+  username: !secret trakt_user
+  
