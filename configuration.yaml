@@ -191,18 +191,22 @@ input_boolean:
     initial: on
     icon: mdi:account-circle
   switch_vlc:
-    name : Lance FIP au Salon
+    name : Lance au Salon
     initial: off
     icon: mdi:radio 
   switch_walter:
-    name : Lance FIP sur Walter
+    name : Lance sur Walter
     initial: off
     icon: mdi:radio
   switch_lightentree:
     name : Lumiere entrée
     initial: off
     icon: mdi:lightbulb
-
+  switch_pod:
+    name : Lance sur Pod
+    initial: off
+    icon: mdi:radio
+    
 notify:
   - platform: kodi
     name: tv_notif
@@ -293,7 +297,18 @@ rest_command:
   fireflyiii_transaction:
     url: !secret transaction_url 
     method: GET
- 
+
+light:
+  - platform: group
+    name: real_lights
+    entities:
+       - light.bureau
+       - light.cheminee
+       - light.color_temperature_light_1
+       - light.dimmable_light_1
+       - light.dimmable_light_2
+       - light.hue_filament_bulb_1
+       - light.plafond
 
 input_select:
   radio_select:

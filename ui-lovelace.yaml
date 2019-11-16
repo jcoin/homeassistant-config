@@ -142,6 +142,8 @@ views:
                          - input_number.vlc_volume 
                          - media_player.mpd
                          - input_boolean.switch_vlc
+                         - input_boolean.switch_pod
+                         - input_number.pod_volume
                          - input_select.radio_select
                  card:
                      type: 'custom:hui-entities-card'
@@ -160,6 +162,11 @@ views:
                           - type: entity
                             name: Volume Walter
                             entity: input_number.music_volume                       
+                          - type: entity
+                            entity: input_boolean.switch_pod
+                          - type: entity
+                            name: Volume Pod
+                            entity: input_number.pod_volume  
                           - type: entity
                             entity: input_boolean.switch_vlc
                           - type: entity
@@ -192,6 +199,13 @@ views:
                       card:
                         type: media-control
                         entity: media_player.walter
+                    - type: conditional
+                      conditions:            
+                        - entity: media_player.googlehome2120
+                          state_not: "off"
+                      card:
+                        type: media-control
+                        entity: media_player.googlehome2120
                     - type: conditional
                       conditions:            
                         - entity: media_player.vlc
