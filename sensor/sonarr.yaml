@@ -1,0 +1,6 @@
+- platform: sonarr
+  host: !secret sonarr_host
+  monitored_conditions:
+    - wanted
+  api_key: !secret sonarr_api_key
+  scan_interval: 86500

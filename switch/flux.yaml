@@ -2,4 +2,4 @@
   lights: 
        - light.bureau
        - light.plafond
-       - light.color_temperature_light_1 
+  disable_brightness_adjust: true
