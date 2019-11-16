@@ -2,21 +2,23 @@
 
 Configuration files for my [HomeAssistant](https://home-assistant.io) instance
 
-## Credits
-
-The "slate" dark theme has been created by [SneakyPie/Sean](https://github.com/seangreen2) 
-
 ## Current Configuration
 
 * Raspberry Pi 3 Model B using the [venv](https://www.home-assistant.io/docs/installation/virtualenv/) installation method
 * Let's encrypt 
 * MQTT 
 * NodeRed (in docker) 
+* Pi-Hole (in docker)
+* Sonarr (in docker)
+* Radarr (in docker)
+* Mopidy
 
 ### Devices
 
 * Philips Hue Bridge
-* PHilips Hue White & Color Ambiance
+* Philips Hue White & Color Ambiance
+* Philips Hue Dimmer Switch
+* Philips Hue Filament Bulb
 * TRADFRI IKEA lights
 * Google Home & Google Home mini
 * OSRAM Smart+ Plug
@@ -34,12 +36,26 @@ The "slate" dark theme has been created by [SneakyPie/Sean](https://github.com/s
 * Various [MQTT](https://www.home-assistant.io/components/sensor.mqtt/) sensors
 * [Pi-hole](https://www.home-assistant.io/components/pi_hole/) sensor
 * [Last.fm](https://www.home-assistant.io/components/lastfm/) sensor
+* [Sonarr](https://www.home-assistant.io/integrations/sonarr/) sensor
 * Raspberry system monitor
 * Kodi Screensaver sensor (via template) 
 * Dark Sky + Meteo France weather sensor
 
+### HACS
+
+* Config Template Card
+* Hue sensor custom component
+* Upcoming Media Card
+* Layout Card
+* Entity Attribute Card
+* Midnight Theme
+* Card Tools
+* Slider Entity Row
+* Trakt
+* Gap Card
+
 ### Automation
-Most of the automation is handled through NodeRed
+Most of the automation is handled through appdaemon & NodeRed
 
 * Manage startup configuration when Homeassistant starts
 
@@ -54,4 +70,4 @@ Most of the automation is handled through NodeRed
 
 ### To-Do
 
-
+* FIP integration via Radio France Open API.
