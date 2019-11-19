@@ -1,0 +1,1186 @@
+[
+    {
+        "id": "cd4b0f3e.5d204",
+        "type": "tab",
+        "label": "Download",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "189abbd.5888444",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "legacy": false,
+        "hassio": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true
+    },
+    {
+        "id": "dd086985.076268",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "home",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "home",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "b001d794.adfa4"
+            ],
+            [
+                "c28ff0a.354c99",
+                "1b2a19d1.1ca856"
+            ]
+        ]
+    },
+    {
+        "id": "b001d794.adfa4",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Mounte Nas",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_on",
+        "entityId": "switch.nasmountctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 604,
+        "y": 81,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db63202.393f96",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Demonte Nas",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_off",
+        "entityId": "switch.nasmountctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 900,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a6bde3ea.1b937",
+        "type": "server-state-changed",
+        "z": "cd4b0f3e.5d204",
+        "name": "Nas  Mounted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "entityidfilter": "switch.nasmountctl",
+        "entityidfiltertype": "substring",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "x": 130,
+        "y": 420,
+        "wires": [
+            [
+                "987bee05.f3f44"
+            ]
+        ]
+    },
+    {
+        "id": "987bee05.f3f44",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "on",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 420,
+        "wires": [
+            [
+                "593bf1e.23ee91",
+                "2815de43.32d942"
+            ],
+            [
+                "67953835.7d5ea8",
+                "24449cd3.3996e4"
+            ]
+        ]
+    },
+    {
+        "id": "593bf1e.23ee91",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Sonarr Halted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.sonarrctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 520,
+        "y": 260,
+        "wires": [
+            [],
+            [
+                "c5e0ec69.717be"
+            ]
+        ]
+    },
+    {
+        "id": "67953835.7d5ea8",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Sonarr On",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "off",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.sonarrctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 515,
+        "y": 433,
+        "wires": [
+            [],
+            [
+                "3076176e.5275d"
+            ]
+        ]
+    },
+    {
+        "id": "d205fce2.75b348",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Allume Sonarr",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_on",
+        "entityId": "switch.sonarrctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 1080,
+        "y": 253,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8e0fae85.ed0e88",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Allume Radarr",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_on",
+        "entityId": "switch.radarrctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 1258,
+        "y": 323,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3076176e.5275d",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Eteind Sonarr",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_off",
+        "entityId": "switch.sonarrctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 740,
+        "y": 437,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e119aa67.c3cce",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Eteind Radarr",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_off",
+        "entityId": "switch.radarrctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 720,
+        "y": 498,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "380a2c7a.edf4cc",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Radarr Halted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.radarrctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 890,
+        "y": 1004,
+        "wires": [
+            [],
+            [
+                "3b1e4e19.c58912"
+            ]
+        ]
+    },
+    {
+        "id": "24449cd3.3996e4",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Radarr On",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "off",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.radarrctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 490,
+        "y": 500,
+        "wires": [
+            [],
+            [
+                "e119aa67.c3cce"
+            ]
+        ]
+    },
+    {
+        "id": "2a9666ae.cdaf1a",
+        "type": "server-state-changed",
+        "z": "cd4b0f3e.5d204",
+        "name": "Sonarr State",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "entityidfilter": "switch.sonarrctl",
+        "entityidfiltertype": "substring",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "x": 130,
+        "y": 600,
+        "wires": [
+            [
+                "6c3806c1.01794"
+            ]
+        ]
+    },
+    {
+        "id": "6c3806c1.01794",
+        "type": "template",
+        "z": "cd4b0f3e.5d204",
+        "name": "Format Notification",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{  \"data\":{\n  \"message\": \"Sonarr {{payload}}\"}\n}",
+        "output": "str",
+        "x": 330,
+        "y": 600,
+        "wires": [
+            [
+                "d79c047c.575a38"
+            ]
+        ]
+    },
+    {
+        "id": "d79c047c.575a38",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Msg Telegram",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "notify",
+        "service": "telegram_notif_bot",
+        "entityId": "",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 610,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4d672fc3.534a1",
+        "type": "server-state-changed",
+        "z": "cd4b0f3e.5d204",
+        "name": "Radarr State",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "entityidfilter": "switch.radarrctl",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "x": 130,
+        "y": 660,
+        "wires": [
+            [
+                "b3a4bbcb.967ac"
+            ]
+        ]
+    },
+    {
+        "id": "b3a4bbcb.967ac",
+        "type": "template",
+        "z": "cd4b0f3e.5d204",
+        "name": "Format Notification",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{  \"data\":{\n  \"message\": \"Radarr {{payload}}\"}\n}",
+        "output": "str",
+        "x": 330,
+        "y": 660,
+        "wires": [
+            [
+                "d79c047c.575a38"
+            ]
+        ]
+    },
+    {
+        "id": "459e73f9.a33114",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Synology halted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "device_tracker.00113207f619",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 406,
+        "y": 39,
+        "wires": [
+            [
+                "b0876ae4.90c4f"
+            ]
+        ]
+    },
+    {
+        "id": "b0876ae4.90c4f",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "home",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "home",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 650,
+        "y": 40,
+        "wires": [
+            [
+                "6e244214.422adc"
+            ],
+            [
+                "2ac01fcb.a0fa98"
+            ]
+        ]
+    },
+    {
+        "id": "6e244214.422adc",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Synology  not mounted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.nasmountctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 840,
+        "y": 20,
+        "wires": [
+            [],
+            [
+                "b001d794.adfa4"
+            ]
+        ]
+    },
+    {
+        "id": "2ac01fcb.a0fa98",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Synology mounted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "off",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.nasmountctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 833,
+        "y": 80,
+        "wires": [
+            [],
+            [
+                "c28ff0a.354c99",
+                "1b2a19d1.1ca856"
+            ]
+        ]
+    },
+    {
+        "id": "b5bd074d.e093e8",
+        "type": "inject",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "topic": "Started",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "x": 149,
+        "y": 103,
+        "wires": [
+            [
+                "459e73f9.a33114",
+                "79f7fa87.456d0c"
+            ]
+        ]
+    },
+    {
+        "id": "2815de43.32d942",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Allume Mopidy",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_on",
+        "entityId": "switch.mopidyctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 520,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c28ff0a.354c99",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "Eteind mopidy",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "switch",
+        "service": "turn_off",
+        "entityId": "switch.mopidyctl",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 640,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c338cc2f.e96738",
+        "type": "inject",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 312,
+        "y": 228,
+        "wires": [
+            [
+                "2815de43.32d942"
+            ]
+        ]
+    },
+    {
+        "id": "1b2a19d1.1ca856",
+        "type": "delay",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 720,
+        "y": 180,
+        "wires": [
+            [
+                "db63202.393f96"
+            ]
+        ]
+    },
+    {
+        "id": "7f330ceb.d3a87c",
+        "type": "server-events",
+        "z": "cd4b0f3e.5d204",
+        "name": "start",
+        "server": "189abbd.5888444",
+        "event_type": "homeassistant_start",
+        "x": 62,
+        "y": 45,
+        "wires": [
+            [
+                "459e73f9.a33114",
+                "79f7fa87.456d0c"
+            ]
+        ]
+    },
+    {
+        "id": "79f7fa87.456d0c",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "synology state",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "device_tracker.00113207f619",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 148,
+        "y": 288,
+        "wires": [
+            [
+                "dd086985.076268"
+            ]
+        ]
+    },
+    {
+        "id": "6e76d42b.306e74",
+        "type": "server-state-changed",
+        "z": "cd4b0f3e.5d204",
+        "name": "Synology",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "entityidfilter": "device_tracker.00113207f619",
+        "entityidfiltertype": "substring",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "x": 65,
+        "y": 188,
+        "wires": [
+            [
+                "dd086985.076268"
+            ]
+        ]
+    },
+    {
+        "id": "902b1dd8.19d9f",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "80",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 923,
+        "y": 253,
+        "wires": [
+            [
+                "d205fce2.75b348"
+            ]
+        ]
+    },
+    {
+        "id": "c5e0ec69.717be",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "memoire",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.memory_free",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 716,
+        "y": 254,
+        "wires": [
+            [
+                "902b1dd8.19d9f"
+            ]
+        ]
+    },
+    {
+        "id": "3b1e4e19.c58912",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "memoire",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.memory_free",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 1165,
+        "y": 832,
+        "wires": [
+            [
+                "c96b3b34.8fa0b"
+            ]
+        ]
+    },
+    {
+        "id": "c96b3b34.8fa0b",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "80",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1054,
+        "y": 322,
+        "wires": [
+            [
+                "8e0fae85.ed0e88"
+            ]
+        ]
+    },
+    {
+        "id": "906e18d2.000e08",
+        "type": "server-state-changed",
+        "z": "cd4b0f3e.5d204",
+        "name": "memoire",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "entityidfilter": "sensor.memory_free",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "x": 112,
+        "y": 519,
+        "wires": [
+            [
+                "4e012365.c539b4"
+            ]
+        ]
+    },
+    {
+        "id": "4e012365.c539b4",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lte",
+                "v": "80",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 294,
+        "y": 521,
+        "wires": [
+            [
+                "67953835.7d5ea8",
+                "24449cd3.3996e4",
+                "1411d56e.228743"
+            ]
+        ]
+    },
+    {
+        "id": "1411d56e.228743",
+        "type": "template",
+        "z": "cd4b0f3e.5d204",
+        "name": "Format Notification",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{  \"data\":{\n  \"message\": \"Memory Alert\"}\n}",
+        "output": "str",
+        "x": 461,
+        "y": 558,
+        "wires": [
+            [
+                "d79c047c.575a38"
+            ]
+        ]
+    },
+    {
+        "id": "53df224a.a25524",
+        "type": "poll-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "sonarr_on",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "updateinterval": "120",
+        "updateIntervalUnits": "seconds",
+        "outputinitially": true,
+        "outputonchanged": true,
+        "entity_id": "switch.sonarrctl",
+        "state_type": "str",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "x": 102,
+        "y": 743,
+        "wires": [
+            [
+                "f6df446a.ffc4b8",
+                "2ddc268e.361a6a"
+            ]
+        ]
+    },
+    {
+        "id": "f6df446a.ffc4b8",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Sonarr On",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "off",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.sonarrctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 281,
+        "y": 741,
+        "wires": [
+            [],
+            [
+                "65a38b5a.1f5564"
+            ]
+        ]
+    },
+    {
+        "id": "65a38b5a.1f5564",
+        "type": "api-call-service",
+        "z": "cd4b0f3e.5d204",
+        "name": "update_sonarr",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "debugenabled": false,
+        "service_domain": "homeassistant",
+        "service": "update_entity",
+        "entityId": "sensor.sonarr_wanted",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "mustacheAltTags": false,
+        "x": 549,
+        "y": 754,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "231f93ae.c5a1dc",
+        "type": "delay",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "8",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 281,
+        "y": 819,
+        "wires": [
+            [
+                "68f11e48.ab1428"
+            ]
+        ]
+    },
+    {
+        "id": "68f11e48.ab1428",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Nb episodes sonarr",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.sonarr_wanted",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 499,
+        "y": 819,
+        "wires": [
+            [
+                "8c8c29f8.a21948"
+            ]
+        ]
+    },
+    {
+        "id": "8c8c29f8.a21948",
+        "type": "switch",
+        "z": "cd4b0f3e.5d204",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 466,
+        "y": 944,
+        "wires": [
+            [
+                "67953835.7d5ea8",
+                "fcecaacf.4b5db",
+                "73ecb2f0.b24044"
+            ]
+        ]
+    },
+    {
+        "id": "fcecaacf.4b5db",
+        "type": "template",
+        "z": "cd4b0f3e.5d204",
+        "name": "Format Notification",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{  \"data\":{\n  \"message\": \"No more episode wanted\"}\n}",
+        "output": "str",
+        "x": 776,
+        "y": 907,
+        "wires": [
+            [
+                "d79c047c.575a38"
+            ]
+        ]
+    },
+    {
+        "id": "73ecb2f0.b24044",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "nas mounted",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "off",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.nasmountctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 698,
+        "y": 1007,
+        "wires": [
+            [],
+            [
+                "380a2c7a.edf4cc"
+            ]
+        ]
+    },
+    {
+        "id": "1c7450e4.e7dadf",
+        "type": "api-current-state",
+        "z": "cd4b0f3e.5d204",
+        "name": "Sonarr On",
+        "server": "189abbd.5888444",
+        "version": "1",
+        "outputs": 2,
+        "halt_if": "off",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "switch.sonarrctl",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 237,
+        "y": 908,
+        "wires": [
+            [],
+            [
+                "231f93ae.c5a1dc"
+            ]
+        ]
+    },
+    {
+        "id": "2ddc268e.361a6a",
+        "type": "function",
+        "z": "cd4b0f3e.5d204",
+        "name": "test",
+        "func": "var lastChange = new Date(msg.data.last_changed).getTime();\nvar now = new Date().getTime();\nvar secs = Math.floor((now / 1000)-(lastChange / 1000));\nif (secs>600) {return msg} \n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 128,
+        "y": 1052,
+        "wires": [
+            [
+                "1c7450e4.e7dadf"
+            ]
+        ]
+    }
+]
