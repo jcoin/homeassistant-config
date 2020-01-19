@@ -30,4 +30,8 @@
       command_off: !secret zncSW_off 
       command_state: !secret zncSW_state 
       friendly_name: znc switch
-
+    triliumctl:
+      command_on: !secret triliumSW_on
+      command_off: !secret triliumSW_off 
+      command_state: !secret triliumSW_state 
+      friendly_name: trilium switch

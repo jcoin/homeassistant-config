@@ -9,7 +9,8 @@ jobs:
      - run: 
          name: Check config 
          command: | 
-           touch fake.pem 
+           touch fake.pem
+           mv Google_SA.json_redacted Google_SA.json 
            mv secrets_redacted.yaml secrets.yaml 
            python3.7 -m venv . 
            source bin/activate
