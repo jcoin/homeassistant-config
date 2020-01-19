@@ -43,6 +43,8 @@ http:
   ip_ban_enabled: True
   login_attempts_threshold: 5
 
+mobile_app:
+
 person:
 
 # Track the sun
@@ -252,7 +254,7 @@ duckdns:
 
 google_assistant:
   project_id: !secret ga_PID
-  api_key: !secret ga_KEY
+  service_account: !include Google_SA.json
   exposed_domains:
     - switch
     - light
@@ -324,7 +326,11 @@ input_select:
       - fip-reggae
       - fip-rock
       - fip-metal
-      
+
+input_text:
+  container_name:
+    initial: nodered
+    
 dialogflow:
 intent_script:
   GetTemperature:

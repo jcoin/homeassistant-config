@@ -45,7 +45,7 @@ views:
                          - entity: !secret lastfm_entity 
                            name: Musique 
                          - entity: sun.sun
-                           name: Soleil
+                           name: Soleil-
                          - entity: sensor.temp_salon
                            name: Temp. Salon
                          - entity: sensor.multisensor_temperature
@@ -54,7 +54,7 @@ views:
                            name: Hum.
                          - entity: sensor.multisensor_brightness
                            name: Lum.
-                         - entity: sensor.linky_yesterday
+                         - entity: sensor.linky_yesterday_2
                            name: Conso Elec.
                       show_state: true
                       show_icon: true
