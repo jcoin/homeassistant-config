@@ -19,19 +19,6 @@ homeassistant:
     
 map: 
 
-zone Willo:
-  name: Willo
-  latitude: 48.91779
-  longitude: 2.35346
-  icon: mdi:factory
-  radius: 90 
-
-zone parents:
-  name: Parents
-  latitude: !secret latitude_parents
-  longitude: !secret longitude_parents
-  radius: 100
-  icon: mdi:account-multiple
 
 lovelace:
   mode: yaml
@@ -160,8 +147,8 @@ media_player:
     name: Kodi_Cuisine
     username: !secret kodicuisine_username 
     password: !secret kodicuisine_pw
-  - platform: mpd
-    host:  !secret mpd_host 
+    # - platform: mpd
+    #host:  !secret mpd_host 
   - platform: vlc
   - platform: samsungtv
     host: !secret samsungtv_host 
@@ -268,16 +255,6 @@ withings:
 
 meteo_france:
   - city: !secret city
-    monitored_conditions :
-      - rain_chance
-      - freeze_chance
-      - thunder_chance
-      - snow_chance
-      - weather
-      - next_rain
-      - wind_speed
-      - temperature
-      - uv
     
 linky:
    - username: !secret linky_user
@@ -330,7 +307,10 @@ input_select:
 input_text:
   container_name:
     initial: nodered
-    
+
+remote:
+  - platform: hueremote
+
 dialogflow:
 intent_script:
   GetTemperature:

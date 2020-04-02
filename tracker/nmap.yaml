@@ -1,0 +1,2 @@
+  - platform: nmap_tracker
+    hosts: 192.148.147.0/24 
