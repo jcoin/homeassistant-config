@@ -5,19 +5,19 @@
 title: Home
 
 resources:
-  - url: /community_plugin/lovelace-card-tools/card-tools.js
+  - url: /hacsfiles/lovelace-card-tools/card-tools.js
     type: js
-  - url: /community_plugin/lovelace-layout-card/layout-card.js
+  - url: /hacsfiles/lovelace-layout-card/layout-card.js
     type: js
-  - url: /community_plugin/lovelace-gap-card/gap-card.js
+  - url: /hacsfiles/lovelace-gap-card/gap-card.js
     type: module
-  - url: /community_plugin/lovelace-slider-entity-row/slider-entity-row.js
+  - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
     type: module
-  - url: /community_plugin/config-template-card/config-template-card.js
+  - url: /hacsfiles/config-template-card/config-template-card.js
     type: module  
-  - url: /community_plugin/entity-attributes-card/entity-attributes-card.js
+  - url: /hacsfiles/entity-attributes-card/entity-attributes-card.js
     type: js
-  - url: /community_plugin/upcoming-media-card/upcoming-media-card.js
+  - url: /hacsfiles/upcoming-media-card/upcoming-media-card.js
     type: js
 views:
   - title: default_view
@@ -99,18 +99,16 @@ views:
                                entity_id: media_player.television
                           - type: section
                             label : Lumieres
-                          - type: entity
+                          - entity : light.entree
                             icon: mdi:lightbulb
-                            entity : light.entree
                             name: Entree
                           - type: custom:slider-entity-row
                             icon: mdi:lightbulb
                             entity : light.hue_filament_bulb_1
                             name: Cheminee
                             toggle: true
-                          - type: entity
+                          - entity : switch.sonoff_t1_relay
                             icon: mdi:lightbulb
-                            entity : switch.sonoff_t1_relay
                             name: Plafond Chambre
                           - type: custom:slider-entity-row
                             entity : light.bureau
@@ -132,15 +130,15 @@ views:
             #horizontal-stack
             cards: 
                - type: custom:config-template-card  
-                 variables: 
-                         - states['media_player.mpd'].attributes['media_artist']
-                         - states['media_player.mpd'].attributes['media_title']
-                         - states['media_player.mpd'].state 
+#                 variables: 
+#                         - states['media_player.mpd'].attributes['media_artist']
+#                         - states['media_player.mpd'].attributes['media_title']
+#                         - states['media_player.mpd'].state 
                  entities: 
                          - input_boolean.switch_walter
                          - input_number.music_volume
                          - input_number.vlc_volume 
-                         - media_player.mpd
+#                         - media_player.mpd
                          - input_boolean.switch_vlc
                          - input_boolean.switch_pod
                          - input_number.pod_volume
@@ -152,26 +150,20 @@ views:
                      entities: 
                           - type: section
                             label : Radio
-                          - type: entity
-                            entity: input_select.radio_select
-                          - type: entity
-                            entity: media_player.mpd
-                            name: "${vars[2] === 'off' || vars[2] === 'unavailable'  ? 'Music Daemon' : vars[0]+' '+ vars[1]}"
-                          - type: entity
-                            entity: input_boolean.switch_walter
-                          - type: entity
+                          - entity: input_select.radio_select
+ #                         - type: entity
+ #                           entity: media_player.mpd
+ #                           name: "${vars[2] === 'off' || vars[2] === 'unavailable'  ? 'Music Daemon' : vars[0]+' '+ vars[1]}"
+                          - entity: input_boolean.switch_walter
+                          - entity: input_number.music_volume
                             name: Volume Walter
-                            entity: input_number.music_volume                       
-                          - type: entity
-                            entity: input_boolean.switch_pod
-                          - type: entity
+                          - entity: input_boolean.switch_pod
+                          - entity: input_number.pod_volume 
                             name: Volume Pod
-                            entity: input_number.pod_volume  
-                          - type: entity
-                            entity: input_boolean.switch_vlc
-                          - type: entity
+                          - entity: input_boolean.switch_vlc
+                          - entity: input_number.vlc_volume
                             name: Volume HP
-                            entity: input_number.vlc_volume                     
+                                                 
 
           #Players
           - type: custom:layout-card 
@@ -232,11 +224,9 @@ views:
             - switch.nasmountctl
             - switch.sonarrctl
             - switch.flux
-            - device_tracker.00113207f619
-            - device_tracker.0017884b4b45
+            - device_tracker.synobalo
             - binary_sensor.multisensor_motion
             - switch.zncctl
-            - sensor.home_assistant_v2_db
 
         - type: entities
           title: Prises
